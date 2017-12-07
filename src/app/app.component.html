@@ -1,20 +1,92 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div fxLayout="row" fxLayoutWrap="wrap" class="data-table">
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <mat-card>
 
+      <mat-card-content>
+          
+        <div fxLayout="row" fxLayoutWrap="wrap">
+
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <p-dataTable #dt [value]="data" [(selection)]="selectedToPrint" [responsive]="true" class="tasks-table" expandableRows="true"
+              [headerCheckboxToggleAllPages]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,40,80]" [sortOrder]="sortO"
+              [globalFilter]="gFilter">
+              <p-header style="padding:0px">
+                <mat-toolbar class="main-header">
+
+                  <div class="search-bar" fxFlex>
+                    <div class="search-form" fxShow="false" fxShow.gt-xs>
+
+                      <input #gFilter style="margin-left:1rem;" type="text" placeholder="Search All" autofocus="true" />
+                    </div>
+                  </div>
+                  <span class="spacer"></span>
+                  <button mat-raised-button onclick="window.print()">Print</button>
+                  
+                </mat-toolbar>
+
+              </p-header>
+              <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+              <p-column field="noId" header="Id" [sortable]="true"></p-column>
+
+              <p-column field="company" header="Company" [sortable]="true"></p-column>
+              <p-column field="date" header="Date" [sortable]="true"></p-column>
+              <p-column field="sender.name" header="Sender Name" [sortable]="true"></p-column>
+              <p-column field="reciever.name" header="Reciever Name" [sortable]="true"></p-column>
+
+
+
+            </p-dataTable>
+          </div>
+
+        </div>
+      </mat-card-content>
+
+
+    </mat-card>
+  </div>
+
+</div>
+
+<div *ngFor="let toPrint of getPrint()">
+  <mat-card class="print-card">
+    <mat-card-header>
+      <div>
+        <mat-card-title>{{toPrint.company}}</mat-card-title>
+        <mat-card-subtitle>{{toPrint.noId}}</mat-card-subtitle>
+      </div>
+      <span class="spacer"></span>
+
+      <div style="float:left;margin-right:90px">
+        <mat-card-title>Data</mat-card-title>
+        <mat-card-subtitle>{{toPrint.date}}</mat-card-subtitle>
+      </div>
+
+
+    </mat-card-header>
+    <mat-card-content>
+      <div class="reciversender">
+
+        <div class="reciversender-name">To {{toPrint.reciever.name}}</div>
+
+        <div style="float: right;margin-right: 10px;">{{toPrint.reciever.phone}}</div>
+
+        <div class="reciversender-address">{{toPrint.reciever.address1}}</div>
+
+        <div class="reciversender-address">{{toPrint.reciever.address2}}</div>
+        <div class="reciversender-address">{{toPrint.reciever.suburb}}</div>
+
+
+      </div>
+    </mat-card-content>
+    <mat-card-content>
+      <div class="reciversender">
+        <div class="reciversender-name">From {{toPrint.sender.name}}</div>
+        <div class="reciversender-address">{{toPrint.sender.address1}}</div>
+
+        <div class="reciversender-address">{{toPrint.sender.address2}}</div>
+        <div class="reciversender-address">{{toPrint.sender.suburb}}</div>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+</div>
